@@ -1,66 +1,68 @@
-## Foundry
+# SwapApp
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This is a token swapping application that allows users to exchange tokens in a liquidity pool.
 
-Foundry consists of:
+## 🛠 Technical Features
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- **Swap Single:** Execution of single-hop swaps (Exact Input Single).
+- **Protocol Fees:** Integrated adjustable fee collection system (configurable in basis points - BPS).
+- **Security:** Implementation of `SafeERC20` for secure transfers and `Ownable` for administrative management.
+- **Optimization:** Use of `Custom Errors` for gas savings and `Immutable variables` for protocol addresses.
+- **Arbitrum Focus:** Configured and tested for the most liquid assets: **WETH, USDC, and DAI**.
 
-## Documentation
+### 📋 Prerequisites
 
-https://book.getfoundry.sh/
+Before starting, ensure you have installed:
 
-## Usage
+- [Foundry](https://book.getfoundry.sh/getting-started/installation) (Forge, Cast, Anvil).
+- An RPC URL for Arbitrum (you can use Alchemy, Infura, or a public node).
 
-### Build
+## 🚀 Installation & Setup
 
-```shell
-$ forge build
-```
+Follow these steps to set up the project locally:
 
-### Test
+1. **Clone the repository:**
 
-```shell
-$ forge test
-```
+   ```bash
+   git clone [https://github.com/Alexka-Dev/SwapApp.git](https://github.com/Alexka-Dev/SwapApp.git)
+   cd SwapApp
 
-### Format
+   ```
 
-```shell
-$ forge fmt
-```
+2. **Install dependencies:**
+   Foundry uses Git submodules for libraries. Run the following command to download OpenZeppelin and Forge-std:
 
-### Gas Snapshots
+   ```bash
+   forge install
 
-```shell
-$ forge snapshot
-```
+   ```
 
-### Anvil
+3. **Compile the project:**
+   ```bash
+   forge build
+   ```
 
-```shell
-$ anvil
-```
+## 🧪 Running Tests
 
-### Deploy
+Since the contract interacts with the real Uniswap V3 protocol, tests must be executed using a Mainnet Fork of Arbitrum One. This allows for simulating real network state and current liquidity.
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+Run all tests using the following command:
 
-### Cast
+```bash
+forge test --fork-url [selected-arbitrum-network] --match-test [test-name]
 
-```shell
-$ cast <subcommand>
-```
+### 🧪 Key Tests Included:
 
-### Help
+1. **testDeployedCorrectly:** Verifies that the Router and Admin are correctly assigned.
+2. **testSwapWethToUsdc:** Validates swaps between assets with different decimals.
+3. **testSwapUsdcToDai:** Validates stablecoin swaps using low-fee pools.
+4. **testProtocolFeeCollection:** Ensures the contract correctly retains fees and that the admin can withdraw them.
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+### 📍 Reference Addresses (Arbitrum One)
+- Uniswap V3 Router,0xE592427A0AEce92De3Edee1F18E0157C05861564
+- WETH,0x82aF49447D8a07e3bd95BD0d56f35241523fBab1
+- USDC,0xaf88d065e77c8cC2239327C5EDb3A432268e5831
+- DAI,0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1
+
+*Developed* by **Alexka-Dev**
 ```
